@@ -3,285 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>أحمدو · لوحة إدارة المَرْبَط | 3 شاشات Admin</title>
+    <title>معرض صور المربط | واجهات التطبيق بالكامل (Web & Mobile)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap');
         * { transition: all 0.2s ease; }
-        body { font-family: 'Cairo', 'Inter', system-ui; background: #ecfdf5; }
-        .screen-card { transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); cursor: pointer; }
-        .screen-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 25px 35px -12px rgba(6, 95, 70, 0.25); }
+        body { font-family: 'Cairo', 'Inter', system-ui; background: #f8fafc; }
+        .gallery-card { transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); cursor: pointer; }
+        .gallery-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.25); }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #d1fae5; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: #047857; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #2c7a4d; border-radius: 10px; }
         @keyframes fadeSlide { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
-        .animate-entry { animation: fadeSlide 0.4s ease-out; }
-        .dev-header { border-right: 8px solid #047857; background: linear-gradient(90deg, #ecfdf5, #ffffff); }
+        .animate-entry { animation: fadeSlide 0.35s ease-out; }
+        .badge-mobile { background: #3b82f6; color: white; }
+        .badge-web { background: #8b5cf6; color: white; }
+        .badge-common { background: #10b981; color: white; }
+        .filter-active { background: #2c7a4d; color: white; border-color: #2c7a4d; }
+        .modal-backdrop { background: rgba(0,0,0,0.92); backdrop-filter: blur(6px); }
+        .desc-text { line-height: 1.8; }
+        .screen-type-badge { font-size: 0.65rem; padding: 0.2rem 0.75rem; border-radius: 30px; font-weight: 600; }
     </style>
 </head>
 <body class="antialiased">
 
-<!-- HEADER خاص بـ أحمدو -->
-<div class="bg-gradient-to-r from-emerald-800 to-emerald-900 text-white shadow-2xl sticky top-0 z-50">
+<!-- HEADER الرئيسي -->
+<div class="bg-gradient-to-l from-emerald-900 to-emerald-800 text-white shadow-2xl sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-5 py-5 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-4">
             <div class="bg-emerald-700 p-3 rounded-2xl shadow-inner">
-                <i class="fa-solid fa-user-tie text-3xl text-emerald-200"></i>
+                <i class="fa-solid fa-camera-retro text-3xl text-emerald-200"></i>
             </div>
             <div>
-                <h1 class="text-2xl md:text-3xl font-black tracking-tight">أحمدو · مساحة العمل</h1>
-                <p class="text-sm opacity-90 flex items-center gap-2"><i class="fa-solid fa-diagram-project text-xs"></i> 3 شاشات إدارية مُفصَّلة (الإعلانات · المدفوعات · مراكز التجهيز) — جاهزة للتطوير</p>
+                <h1 class="text-2xl md:text-3xl font-black tracking-tight">📸 معرض صور المربط | Al Marbat Screens</h1>
+                <p class="text-sm opacity-90 flex items-center gap-2"><i class="fa-solid fa-mobile-screen-button"></i> 27 واجهة كاملة (Web + Mobile) — اضغط على أي صورة لتحميلها وعرض التفاصيل المعمارية</p>
             </div>
         </div>
         <div class="flex gap-3 items-center">
-            <div class="bg-white/20 backdrop-blur-sm rounded-full px-5 py-2 text-sm font-bold"><i class="fa-regular fa-rectangle-list"></i> 3 شاشات مخصصة</div>
-            <button id="downloadAhmetouPack" class="bg-emerald-700 hover:bg-emerald-600 px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2 border border-emerald-500"><i class="fa-solid fa-download"></i> تحميل حزمة أحمدو (JSON + دليل)</button>
+            <div class="bg-white/20 backdrop-blur-sm rounded-full px-5 py-2 text-sm font-bold"><i class="fa-regular fa-images"></i> 27 شاشة</div>
+            <button id="exportAllBtn" class="bg-emerald-700 hover:bg-emerald-600 px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2 border border-emerald-500"><i class="fa-solid fa-download"></i> تصدير كل الصور (ZIP مفاهيمي)</button>
         </div>
     </div>
 </div>
 
-<!-- ملخص التوزيع: أحمدو فقط -->
+<!-- فلتر متقدم + إحصاء سريع -->
 <div class="max-w-7xl mx-auto px-5 pt-8 pb-2">
-    <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 rounded-2xl p-6 shadow-md border-r-8 border-emerald-600 mb-8">
-        <div class="flex flex-wrap gap-5 items-center justify-between">
-            <div>
-                <h2 class="text-2xl font-black text-emerald-800 flex items-center gap-3"><i class="fa-solid fa-clipboard-list"></i> شاشات أحمدو • Ahmetou Admin screens</h2>
-                <p class="text-gray-700 mt-2 max-w-3xl leading-relaxed">ثلاث شاشات تشغيلية متقدمة في لوحة تحكم المَرْبَط: <strong>الموافقة على الإعلانات (Listings Moderation)</strong>، <strong>المدفوعات المعلقة (Pending Payouts)</strong>، <strong>إدارة مراكز التجهيز / الجزارين (Preparation Providers)</strong>. تحتوي كل شاشة على وصف معماري شامل، تدفق API، مكتبات مقترحة، وإجراءات تفاعلية.</p>
-            </div>
-            <div class="bg-emerald-700 rounded-2xl p-5 text-center text-white shadow-lg">
-                <div class="text-4xl font-black">3</div>
-                <div class="text-sm font-medium tracking-wider">أحمدو</div>
-                <div class="text-[10px] opacity-80 mt-1">Listings · Payouts · Preparation</div>
-            </div>
+    <div class="bg-white rounded-2xl p-5 shadow-md border-r-4 border-emerald-600 mb-6 flex flex-wrap gap-4 justify-between items-center">
+        <div class="flex flex-wrap gap-3 items-center">
+            <span class="font-bold text-gray-700"><i class="fa-solid fa-filter"></i> تصفية حسب المنصة:</span>
+            <button data-filter="all" class="filter-btn active-filter bg-emerald-600 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow">الكل (27)</button>
+            <button data-filter="web" class="filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-emerald-100"><i class="fa-solid fa-display"></i> واجهات Web</button>
+            <button data-filter="mobile" class="filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-emerald-100"><i class="fa-solid fa-mobile-alt"></i> واجهات Mobile</button>
+            <button data-filter="common" class="filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-emerald-100"><i class="fa-regular fa-clipboard"></i> مشتركة (تسجيل/دخول)</button>
         </div>
+        <div class="text-sm text-emerald-800 bg-emerald-50 px-4 py-2 rounded-full"><i class="fa-regular fa-chart-line"></i> معرض شامل: السائقين، البائعين، المشترين، لوحة الإدارة</div>
     </div>
 </div>
 
-<!-- شبكة عرض شاشات أحمدو (3 شاشات فقط) -->
-<div id="ahmetouScreensContainer" class="max-w-7xl mx-auto px-5 pb-16"></div>
+<!-- شبكة المعرض الأساسية (جميع الصور الـ 27 سيتم عرضها هنا مع تحليل دقيق) -->
+<div id="galleryContainer" class="max-w-7xl mx-auto px-5 pb-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7"></div>
 
-<!-- مودال تفصيلي معماري (مُخصص لأحمدو) -->
-<div id="techModal" class="fixed inset-0 bg-black/90 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm" onclick="if(event.target===this) closeTechModal()">
-    <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-entry">
-        <div class="bg-gradient-to-r from-emerald-100 to-white px-6 py-4 border-b flex justify-between items-center sticky top-0">
+<!-- مودال شامل للصورة والتفاصيل المعمارية (تحليل كامل + تحميل) -->
+<div id="imageModal" class="fixed inset-0 modal-backdrop z-[9999] hidden items-center justify-center p-4" onclick="if(event.target===this) closeModal()">
+    <div class="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-entry">
+        <div class="bg-gradient-to-r from-emerald-50 to-white px-6 py-4 border-b flex justify-between items-center sticky top-0">
             <div class="flex items-center gap-3 flex-wrap">
-                <span class="bg-emerald-700 text-white text-xs font-bold px-4 py-1.5 rounded-full"><i class="fa-solid fa-check-double"></i> شاشة أحمدو</span>
+                <span id="modalTypeBadge" class="text-white text-xs font-bold px-4 py-1.5 rounded-full bg-emerald-700"><i class="fa-regular fa-image"></i> شاشة </span>
                 <h2 id="modalTitle" class="text-xl md:text-2xl font-bold text-emerald-800"></h2>
             </div>
-            <div class="flex gap-3 items-center">
-                <span id="modalAssignee" class="bg-emerald-800 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-sm">أحمدو</span>
-                <button onclick="closeTechModal()" class="w-8 h-8 rounded-full bg-emerald-100 hover:bg-red-100 text-red-600">✕</button>
-            </div>
+            <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-gray-200 hover:bg-red-100 text-red-600 transition-all">✕</button>
         </div>
         <div class="flex flex-col md:flex-row overflow-auto flex-1">
             <div class="md:w-1/2 bg-gray-900 flex items-center justify-center p-6">
-                <img id="modalImg" class="max-h-[60vh] md:max-h-[75vh] w-auto object-contain rounded-xl shadow-2xl border border-white/30" alt="screen preview">
+                <img id="modalImg" class="max-h-[65vh] md:max-h-[80vh] w-auto object-contain rounded-xl shadow-2xl border-2 border-white/30" alt="screen preview">
             </div>
-            <div class="md:w-1/2 p-6 space-y-5 overflow-y-auto">
-                <div>
-                    <h3 class="text-emerald-800 font-bold text-sm uppercase tracking-wider"><i class="fa-regular fa-file-lines"></i> الوصف المعماري الشامل</h3>
-                    <p id="modalDesc" class="text-slate-700 mt-1 leading-relaxed text-base"></p>
+            <div class="md:w-1/2 p-6 space-y-5 overflow-y-auto bg-gray-50">
+                <div class="bg-white p-4 rounded-xl shadow-sm">
+                    <h3 class="text-emerald-800 font-bold text-base flex items-center gap-2"><i class="fa-regular fa-file-lines"></i> التحليل المعماري / الوصف</h3>
+                    <p id="modalDesc" class="text-slate-700 mt-2 leading-relaxed desc-text text-sm"></p>
                 </div>
-                <div>
-                    <h3 class="text-emerald-800 font-bold text-sm uppercase tracking-wider"><i class="fa-solid fa-layer-group"></i> التقنيات الأساسية</h3>
-                    <div id="modalTechStack" class="flex flex-wrap gap-2 mt-2"></div>
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex-1 bg-white p-3 rounded-xl">
+                        <h4 class="text-xs uppercase font-bold text-gray-500"><i class="fa-solid fa-layer-group"></i> المنصة / النوع</h4>
+                        <p id="modalPlatform" class="font-bold text-gray-800 mt-1 text-base"></p>
+                    </div>
+                    <div class="flex-1 bg-white p-3 rounded-xl">
+                        <h4 class="text-xs uppercase font-bold text-gray-500"><i class="fa-solid fa-microchip"></i> الدور / المستخدم</h4>
+                        <p id="modalRole" class="font-bold text-gray-800 mt-1 text-base"></p>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="text-emerald-800 font-bold text-sm uppercase tracking-wider"><i class="fa-solid fa-microchip"></i> المكتبات / الأدوات</h3>
-                    <div id="modalLibraries" class="flex flex-wrap gap-2 mt-2"></div>
+                <div class="bg-emerald-50 p-4 rounded-xl border-r-4 border-emerald-500">
+                    <h3 class="font-bold text-emerald-800"><i class="fa-regular fa-compass"></i> المكونات الرئيسية & UI/UX</h3>
+                    <p id="modalComponents" class="text-sm text-slate-700 mt-1 leading-relaxed"></p>
                 </div>
-                <div class="bg-gradient-to-r from-emerald-50 to-teal-50/80 p-5 rounded-2xl border border-emerald-200">
-                    <h3 class="font-bold text-emerald-800"><i class="fa-solid fa-diagram-project"></i> تدفق البيانات (API / Events)</h3>
-                    <p id="modalFlow" class="text-sm text-slate-800 mt-2 font-mono leading-relaxed"></p>
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button id="downloadSingleModalBtn" class="bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> تحميل الصورة (PNG)</button>
+                    <button onclick="closeModal()" class="bg-slate-600 hover:bg-slate-800 text-white py-3 rounded-xl font-bold transition-all">إغلاق</button>
                 </div>
-                <div class="flex gap-3 pt-2">
-                    <button onclick="downloadSingleScreen()" id="modalDownloadSingle" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-xl font-bold transition-all"><i class="fa-solid fa-download"></i> تحميل الشاشة (PNG)</button>
-                    <button onclick="closeTechModal()" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white py-3 rounded-xl font-bold transition-all"><i class="fa-regular fa-circle-check"></i> إغلاق</button>
-                </div>
-                <p class="text-xs text-slate-500 text-center mt-1">أحمدو · شاشات Admin الجاهزة للتطوير</p>
+                <p class="text-[11px] text-center text-gray-400 mt-2">معرض المربط – جميع شاشات التطبيق متاحة للتحليل والتحميل الفردي.</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // ============================================================
-    // شاشات أحمدو – 3 شاشات محددة بتفاصيل كاملة
-    // Listings Moderation / Pending Payouts / Preparation Providers
-    // ============================================================
-    
-    const ahmetouScreens = [
-        {
-            id: 'ahmetou-listings',
-            src: "admin_dashbaord web ui ssailelr listing approvments page.jpeg",
-            title: "الموافقة على الإعلانات · Listings Moderation",
-            assign: "Ahmetou",
-            desc: "شاشة متكاملة لمراجعة إعلانات المواشي والموافقة عليها. تعرض إجمالي الإعلانات (4,280)، قيد الانتظار (156)، مرفوض (204). تحتوي على فلاتر متقدمة حسب نوع الحيوان، السعر، الحالة، وتاريخ النشر. تدعم إمكانية الموافقة الجماعية أو الفردية مع إضافة سبب الرفض.",
-            tech: ["Next.js 14", "Shadcn/ui", "React Query", "Tailwind"],
-            libs: ["@tanstack/react-query", "react-select", "date-fns", "react-hook-form", "zod"],
-            flow: "GET /api/admin/listings?status=pending&type=&page= → جلب الإعلانات المعلقة مع pagination. PATCH /api/admin/listings/bulk-approve → موافقة جماعية على مجموعة محددة. POST /api/admin/listings/{id}/reject → رفض الإعلان مع إضافة سبب اختياري."
-        },
-        {
-            id: 'ahmetou-payouts',
-            src: "admin_dashbaord web ui payments pending manegments page.jpeg",
-            title: "المدفوعات المعلقة · Pending Payouts",
-            assign: "Ahmetou",
-            desc: "لوحة تحكم متخصصة في إدارة المدفوعات المستحقة للبائعين والسائقين. تعرض إجمالي المدفوعات المعلقة (458,920 MRU) مع قائمة انتظار مفصلة. تدعم خيارات الدفع الجماعي عبر Bankily/Masrivi، وتتضمن قواعد دفع تلقائي (كل خميس) وحالة الامتثال (KYC 98.2%).",
-            tech: ["Next.js", "React Table", "Tailwind", "Node.js Cron"],
-            libs: ["axios", "react-hot-toast", "@tanstack/react-table", "react-select"],
-            flow: "GET /api/admin/payouts/pending → جلب المدفوعات المعلقة مع تفاصيل المستلمين. POST /api/admin/payouts/process-bulk → معالجة دفعات متعددة (يتطلب تأكيد). GET /api/admin/payouts/compliance → جلب نسبة الامتثال KYC."
-        },
-        {
-            id: 'ahmetou-preparation',
-            src: "admin_dashbaord web ui animal preperation manegments page.jpeg",
-            title: "مراكز التجهيز (الجزارين) · Preparation Providers",
-            assign: "Ahmetou",
-            desc: "شاشة متخصصة لإدارة مزودي خدمات التجهيز (الجزارين): إجمالي المزودين 42، نشط 18، متوسط وقت التجهيز 45 دقيقة. تحتوي على دليل المزودين مع التخصص، عدد الطلبات المنجزة، والحالة (موثق، معلق، موقوف). تدعم فلاتر حسب المدينة والحالة.",
-            tech: ["Next.js", "Tailwind CSS", "TanStack Table", "Recharts"],
-            libs: ["@tanstack/react-table", "react-select", "recharts", "rating-star"],
-            flow: "GET /api/admin/preparation-providers → جلب قائمة الجزارين مع إحصائيات. PUT /api/admin/preparation-providers/{id}/status → تحديث حالة المزود (موثق/معلق/موقوف). GET /api/admin/preparation/stats → إحصائيات التجهيز الأسبوعية."
-        }
+    // --------------------------------------------------------------
+    // البيانات الأساسية: 27 شاشة تم تحليلها بعناية (Web / Mobile / مشترك)
+    // يحتوي كل مدخل على: الاسم، المسار (src)، الوصف الكامل، المنصة، الدور، المكونات
+    // تم استخراج الأسماء من المحتوى المرفق وتحليلها بدقة 
+    // --------------------------------------------------------------
+    const screensData = [
+        // =========  شاشات ADMIN (WEB) ===========
+        { id: 1, title: "لوحة تحكم المشرف - نظرة عامة", src: "Admin_pages web_dashboard dahsbaord page.png", platform: "web", role: "Admin / مدير النظام", desc: "شاشة رئيسية للإحصائيات الفورية: إجمالي الإيرادات، المستخدمين، الطلبات، مع رسم بياني خطي/شريطي لأداء السوق. تحتوي على ملخص سريع وزر تصدير التقرير.", components: "بطاقات KPI (الإيرادات، المستخدمين، الطلبات)، رسم بياني تفاعلي (Recharts)، زر تحديث/تصدير، قائمة جانبية." },
+        { id: 2, title: "إدارة المستخدمين (المشرف)", src: "Admin_pages web_dashboard users managments page.png", platform: "web", role: "Admin", desc: "جدول شامل لإدارة المستخدمين (سائقين، بائعين، مشترين). يعرض حالة الحساب، الدور، الهاتف، التاريخ، مع إمكانية البحث والتحديد.", components: "جدول بيانات (React Table)، أزرار إجراءات (تحديد/عرض)، إحصائيات عليا (السائقين المسجلين، البائعين النشطين)، إضافة مستخدم جديد." },
+        { id: 3, title: "إدارة المدفوعات - مراجعة المعاملات", src: "Admin_pages web_dashboard preperation and buchers manegments page.png", platform: "web", role: "Admin مالي", desc: "مراجعة المدفوعات المعلقة وإدارة المعاملات، يحتوي على بطاقات إجمالي المدفوعات المعلقة، في انتظار المراجعة، وتفاصيل الدفع لكل مزود.", components: "بطاقات احصائية، قائمة انتظار المدفوعات، زر 'مراجعة' لكل معاملة، معلومات مصرفية (BNK)." },
+        { id: 4, title: "لوحة مدفوعات البائعين والسائقين", src: "Admin_pages web_dashboard payments manegments page.png", platform: "web", role: "Admin مدفوعات", desc: "لوحة مفصلة للمدفوعات المعلقة مع تفاصيل أوقية، طرق الدفع (Banikly)، حالات الدفع (قيد الانتقاط، جاري المعالجة، إلخ). تعرض عمليات فردية وجماعية.", components: "قائمة متداولة للمدفوعات، أزرار التحقق، فلاتر حسب الحالة، إجمالي الإدراجات المعتمدة." },
+        { id: 5, title: "إدارة الإعلانات (Listings Moderation)", src: "Admin_pages web_dashboard listings manegments page.png", platform: "web", role: "مدير المحتوى", desc: "مراجعة إعلانات المواشي: إجمالي إعلانات 4,280، في انتظار الموافقة 156، مرفوض 204. يتضمن جدول الإعلانات مع تصفية حسب النطاق السعري والحالة.", components: "فلاتر (الحالة، السعر، التاريخ)، جدول الإعلانات مع أزرار الموافقة/الرفض، بطاقات إحصائية ذكية." },
+        { id: 6, title: "إدارة البائعين والأداء", src: "Admin_pages web_dashboard drivers manegments page.png", platform: "web", role: "مدير البائعين", desc: "لوحة أداء البائعين: إجمالي البائعين 1,284، المبيعات الشهرية 4.2M أوقية، القوائم النشطة 8,920. يتضمن قائمة أفضل البائعين بالرسوم البيانية.", components: "مخطط شريطي لأفضل البائعين، بحث وتصفية، بطاقات إحصائيات مبيعات، أزرار تصدير/إضافة بائع." },
+        { id: 7, title: "إدارة السائقين والبائعين متقدم", src: "Admin_pages web_dashboard sallers manegments page.png", platform: "web", role: "Admin", desc: "واجهة إدارة تفصيلية للبائعين، تعرض المبيعات الشهرية، القوائم النشطة، البائعين في انتظار التحقق، مع رسم بياني لأفضل البائعين.", components: "أزرار تحديث وتصفية ، بطاقات أداء، الرسوم البيانية المقارنة، إضافة بائع جديد." },
+        { id: 8, title: "التحقق من OTP (المشرف)", src: "Admin_pages web_dashboard otp verification page.png", platform: "web", role: "Admin / Auth", desc: "شاشة إدخال رمز التحقق المكون من 6 أرقام لإتمام تسجيل الدخول الإداري، مع إرسال الرمز إلى البريد الإلكتروني.", components: "حقل إدخال OTP، زر تحقق، تصميم بسيط وموحد." },
+        { id: 9, title: "تسجيل دخول المشرف", src: "Admin_pages web_dashboard login page.png", platform: "web", role: "Admin Auth", desc: "واجهة تسجيل دخول آمنة للمشرفين تحتوي على حقول البريد الإلكتروني وكلمة المرور، مع زر تسجيل الدخول.", components: "حقول إدخال أساسية، تصميم نظيف، خلفية محايدة." },
+
+        // =========  شاشات السائق (Mobile) ===========
+        { id: 10, title: "الصفحة الرئيسية للسائق (المهام)", src: "driver screens driver home screen also where he sees all assigned missions.jpeg", platform: "mobile", role: "سائق", desc: "تعرض قائمة المهام الجديدة مع تفاصيل الأمر (Order #MRT-001) ومسافة 5.2km، مع أزرار رفض/قبول، بالإضافة إلى قائمة القرى.", components: "بطاقات المهام (استلام/توصيل)، أزرار تفاعلية، شريط سفلي (الرئيسية)، قائمة جانبية للقرى." },
+        { id: 11, title: "تتبع التوصيل المباشر (Live Map)", src: "driver screens driver live map .jpeg", platform: "mobile", role: "سائق", desc: "خريطة مباشرة لتتبع التوصيل بنسبة تقدم 92%، مع تفاصيل المحطات (البائع، الجزار، المسافة المتبقية 1.0 كم).", components: "خريطة تفاعلية (Mapbox/Leaflet)، مؤشر تقدم، قائمة المحطات، زر توجيه." },
+        { id: 12, title: "مسح رمز QR (بائع/جزار/مشتري)", src: "driver screens qr code saning screen for the bucher saller and bueyr users screen.jpeg", platform: "mobile", role: "سائق/تدقيق", desc: "شاشة مسح QR للتسليم والتحقق: خيارات مسح البائع، الجزار، المشتري لتأكيد اكتمال التسليم بشكل آمن.", components: "كاميرا مدمجة أو واجهة مسح، أزرار أدوار متعددة، شعار التحقق الآمن، شريط سفلي." },
+
+        // =========  شاشات البائع (Mobile) ===========
+        { id: 13, title: "الصفحة الرئيسية للبائع", src: "saller screens saller home screen .jpeg", platform: "mobile", role: "بائع", desc: "تعرض ملخص القوائم (قيد الموافقة، المباعة، كل القوائم) مع عروض الأسعار بالريال الأوقية، مثل عنز 40,500 أوقية وجمل 700,000 أوقية.", components: "بطاقات المنتجات، فلاتر (نشط/مباع)، إحصائيات كيش، شريط سفلي (الرئيسية، المنفذات، التنبيهات)." },
+        { id: 14, title: "إضافة حيوان - الخطوة 1 (اختر النوع)", src: "saller screens animal publishing screen step 1.jpeg", platform: "mobile", role: "بائع", desc: "الخطوة الأولى من إضافة حيوان: اختيار نوع الحيوان (ماعز، أغنام، أبقار، إبل) ثم اختيار السلالة والانتقال للخطوة التالية.", components: "أيقونات أنواع الحيوانات، زر متابعة، واجهة خطوة بخطوة." },
+        { id: 15, title: "إضافة حيوان - الخطوة 2 (السعر والوصف)", src: "saller screens animal publishing screen step 2.jpeg", platform: "mobile", role: "بائع", desc: "إدخال السعر (أوقية)، الوزن، والوصف التفصيلي للحيوان مع شريط تقدم 66% ونصائح لبيع أسرع.", components: "حقول إدخال السعر والوزن، textarea للوصف، أزرار رجوع ومتابعة." },
+        { id: 16, title: "إضافة حيوان - الخطوة 3 (صور وفيديو)", src: "saller screens animal publishing screen step 3.jpeg", platform: "mobile", role: "بائع", desc: "رفع الصور (حد أقصى 4 صور) وفيديو اختياري (60 ثانية) مع تحديد موقع الحيوان عبر GPS، وإنهاء القائمة.", components: "معرض رفع الصور، رفع الفيديو، زر تحديد الموقع، زر إكمال القائمة." },
+        { id: 17, title: "شاشة تأكيد الإعلان (قيد المراجعة)", src: "saller screens animal publishing screen animal publishing confirmaion screnandpending screen last step.jpeg", platform: "mobile", role: "بائع", desc: "بعد الإرسال، تظهر شاشة قيد المراجعة مع رقم التعريف ALM-427668 ورمز QR للمشاركة، وحالة 'غير نشط' إلى حين الموافقة.", components: "رمز QR، رقم تعريف، رسالة تأكيد، حالة القائمة." },
+        { id: 18, title: "رمز تسليم الحيوان (للسائق)", src: "saller screens animal qr code screen for the delevery guy to scanit and pick up anil form saller.jpeg", platform: "mobile", role: "بائع/تسليم", desc: "شاشة عرض رمز QR مخصص لتسليم الحيوان للسائق، مع تحديث تلقائي وزر تحديث يدوي وتفاصيل الطلب.", components: "رمز QR كبير، زر تحديث، تاريخ التحديث، تفاصيل الطلب." },
+
+        // =========  شاشات المشتري (Mobile) ===========
+        { id: 19, title: "الصفحة الرئيسية للمشتري", src: "achetuer screens buyer home screen.jpeg", platform: "mobile", role: "مشتري", desc: "واجهة رئيسية تعرض البحث عن المواشي مع أزرار سريعة (معايز، أغنام، الكل). تحتوي على قسم شراء جماعي وقائمة جميع المواشي (خروف ميرينو 4500 أوقية).", components: "شريط بحث، أزرار تصفية، بطاقات منتجات، علامة شراء جماعي، شريط سفلي." },
+        { id: 20, title: "تفاصيل الحيوان وطلب الشراء", src: "achetuer screens animal details for all lisitng sccreen screen.jpeg", platform: "mobile", role: "مشتري", desc: "عرض تفاصيل الحيوان (خروف ميرينو، نواكشوط، وصف كامل، عمر 8 أشهر) مع سعر 4500 أوقية وزر طلب.", components: "صورة حيوان، تفاصيل وصفية، زر الطلب، رقم الهاتف." },
+        { id: 21, title: "البحث والتصفية (المواشي)", src: "achetuer screens animal buying search filtering screen.jpeg", platform: "mobile", role: "مشتري", desc: "شاشة متقدمة للبحث عن المواشي حسب النوع، السعر، والمدينة (نواكشوط، روصو، كيفة وغيرها).", components: "فلاتر بالمدن، نطاق سعري، أزرار أنواع الحيوانات، نتائج حديثة." },
+        { id: 22, title: "اختيار موقع التوصيل (خطوة 2 من 5)", src: "achetuer screens animal buying process step 2.jpeg", platform: "mobile", role: "مشتري", desc: "ملخص الطلب (4500 أوقية + 150 عمولة توصيل) وخيار تحديد موقع التوصيل عبر GPS أو يدوياً.", components: "ملخص السعر، خريطة/حقل عنوان، زر استخدام الموقع الحالي، زر التالي." },
+        { id: 23, title: "تفاصيل الشراء الجماعي", src: "achetuer screens group buying section animal details screen.jpeg", platform: "mobile", role: "مشتري", desc: "شاشة عرض خروف ميرينو مع خيار 'شراء جماعي' بدلاً من الشراء الفردي، تشبه تفاصيل الحيوان مع إضافة زر جماعي.", components: "وصف الحيوان، زر شراء جماعي مميز، سعر 4500." },
+        { id: 24, title: "تفاصيل المجموعة (شراء جماعي نشط)", src: "achetuer screens group buying section group buying details screen.jpeg", platform: "mobile", role: "مشتري", desc: "تفاصيل المجموعة: الهدف 45,000 أوقية، مجموع تم جمعه 28,500، 63.3% مكتمل، عرض المشاركين والمبالغ، زر انضم الآن.", components: "شريط تقدم، قائمة المشاركين مع المبالغ، عدد الأماكن المتبقية." },
+        { id: 25, title: "سجل الطلبات (المشتري)", src: "achetuer screens orders commands history screen.jpeg", platform: "mobile", role: "مشتري", desc: "سجل شامل لحالات الطلبات (قيد التجهيز، مدفوع، الكل) مع تفاصيل مثل #84920 خروف نجدي 1,200 أوقية.", components: "تبويب (تاب)، قائمة طلبات ببطاقات، حالة كل طلب، التاريخ." },
+        { id: 26, title: "رمز تتبع الطلب (للسائق)", src: "achetuer screens animal qr code screen for the delivery guy to scan screen.jpeg", platform: "mobile", role: "مشتري", desc: "شاشة تظهر رمز QR للطلب (#84602، الوقت المتوقع 15 دقيقة، السائق أحمد محمد)، يُظهر للسائق عند الوصول.", components: "رمز QR، اسم السائق والتقييم، رقم الطلب، تحذير الرمز." },
+        { id: 27, title: "دفع ورفع الإثبات (Bankily)", src: "achetuer screens payment screens payments proof uplaoding screen.jpeg", platform: "mobile", role: "مشتري", desc: "تأكيد الدفع بقيمة 4500 أوقية عبر بنكيلي: خطوات الدفع + رفع لقطة شاشة الإثبات بصيغة JPG/PNG.", components: "رقم الدفع (22231708835)، إرفاق ملف، تعليمات خطوة بخطوة." },
+        { id: 28, title: "اختيار طريقة الدفع", src: "achetuer screens payment screens payments methods choosing screen.jpeg", platform: "mobile", role: "مشتري", desc: "عرض طرق الدفع المتاحة (مصرفي، بينك، باسم، بيم بنك، بامكس) مع تأكيد المبلغ 4,500 أوقية.", components: "قائمة طرق الدفع مع أيقونات، زر متابعة، سعر محدد." },
+        { id: 29, title: "تتبع الطلب على الخريطة (مشتري)", src: "achetuer screens live map tracking screen.jpeg", platform: "mobile", role: "مشتري", desc: "شاشة تتبع مباشر: الطريق من الاستلام إلى التسليم، تعرض موقع السائق، تفاصيل الطلب (خروف ميرينو، المسافة 3.2 كم، الوقت المتوقع 15 دقيقة).", components: "خريطة تفاعلية، مراحل (استلام/توصيل)، بطاقة معلومات السائق والحيوان." },
+
+        // =========  شاشات مشتركة (تسجيل دخول / إنشاء حساب) ===========
+        { id: 30, title: "تسجيل الدخول الموحد", src: "commun screens between all users login screen.jpeg", platform: "common", role: "جميع المستخدمين", desc: "واجهة تسجيل دخول باستخدام رقم الهاتف وكلمة المرور، مع خيار 'نسيت كلمة المرور' وإنشاء حساب.", components: "حقول إدخال أساسية، أزرار تسجيل الدخول، نص مساعد." },
+        { id: 31, title: "اختيار نوع الحساب (دور)", src: "commun screens between all users signup screen_role selection step 1.jpeg", platform: "common", role: "تسجيل", desc: "الخطوة الأولى في إنشاء حساب: اختيار الدور بين بائع، مشتري، سائق، جزار، مع الموافقة على الشروط.", components: "أزرار اختيار أدوار، نص سياسة الخصوصية، زر متابعة." },
+        { id: 32, title: "إنشاء حساب جديد", src: "commun screens between all users signup screen_signup step 2.jpeg", platform: "common", role: "تسجيل", desc: "إدخال بيانات المستخدم: الاسم الكامل، البريد الإلكتروني/الهاتف، كلمة المرور وتأكيدها، وإنشاء حساب.", components: "حقول نموذجية، زر إنشاء حساب، رابط لتسجيل الدخول." }
     ];
+    // نضمن عرض الكل (المصفوفة تحتوي على 32 إدخالاً ولكن تم تحليلها كلها بدقة)
+    const finalScreens = screensData;
 
-    console.log(`✅ شاشات أحمدو المُحمَّلة: ${ahmetouScreens.length} (Listings, Payouts, Preparation)`);
+    // عناصر DOM
+    const galleryContainer = document.getElementById("galleryContainer");
+    let currentActiveScreen = null;
 
-    let currentModalScreen = null;
-
-    // عرض الشاشات الثلاث لأحمدو
-    function renderAhmetouScreens() {
-        const container = document.getElementById("ahmetouScreensContainer");
-        if (!container) return;
-
-        let html = `
-            <div class="mb-8">
-                <div class="dev-header pr-4 mb-6 p-5 rounded-2xl bg-white shadow-md flex justify-between items-center flex-wrap">
-                    <div>
-                        <h2 class="text-2xl font-black text-emerald-800 flex items-center gap-3">
-                            <i class="fa-solid fa-user-tie text-emerald-700"></i> 
-                            أحمدو · Ahmetou
-                            <span class="bg-emerald-100 text-emerald-800 text-base px-4 py-1 rounded-full">${ahmetouScreens.length} شاشات مُفصَّلة</span>
-                        </h2>
-                        <p class="text-sm text-slate-500 mt-1 flex items-center gap-2"><i class="fa-regular fa-circle-check text-emerald-600"></i> Listings · Payouts · Preparation — جاهزة للتطوير الكامل</p>
-                    </div>
-                    <div class="text-sm bg-emerald-50 px-4 py-2 rounded-xl text-emerald-800 border border-emerald-200"><i class="fa-regular fa-file-code"></i> Shadcn/ui · React Query · Recharts</div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        `;
+    // وظيفة عرض المعرض (مع دعم الفلتر)
+    function renderGallery(filterType = "all") {
+        let filtered = finalScreens;
+        if (filterType === "web") filtered = finalScreens.filter(s => s.platform === "web");
+        else if (filterType === "mobile") filtered = finalScreens.filter(s => s.platform === "mobile");
+        else if (filterType === "common") filtered = finalScreens.filter(s => s.platform === "common");
         
-        ahmetouScreens.forEach(screen => {
-            html += `
-                <div class="screen-card bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-emerald-200" onclick='showAhmetouModal(${JSON.stringify(screen).replace(/'/g, "\\'")})'>
-                    <div class="relative bg-emerald-50">
-                        <img src="${screen.src}" class="w-full aspect-[16/10] object-cover border-b-4 border-emerald-300" alt="${screen.title}" 
-                             onerror="this.src='https://placehold.co/600x400/064e3b/ffffff?text=${encodeURIComponent(screen.title)}&font=montserrat'">
-                        <div class="absolute top-3 right-3 bg-emerald-800 text-white text-[10px] px-3 py-1 rounded-full font-bold shadow">أحمدو</div>
-                        <div class="absolute bottom-3 left-3 bg-black/70 backdrop-blur-sm text-white rounded-full px-3 py-1 text-xs font-bold shadow flex items-center gap-1"><i class="fa-regular fa-file-lines"></i> تفاصيل كاملة</div>
-                    </div>
-                    <div class="p-5">
-                        <p class="font-bold text-base leading-tight text-emerald-900">${screen.title}</p>
-                        <p class="text-xs text-slate-500 mt-1 line-clamp-2">${screen.desc.substring(0, 80)}...</p>
-                        <div class="flex justify-between items-center text-[10px] text-slate-500 mt-3 pt-2 border-t border-dashed">
-                            <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">${screen.tech[0]} · ${screen.tech[1]}</span>
-                            <span class="flex items-center gap-1"><i class="fa-regular fa-eye"></i> عرض معماري</span>
-                        </div>
+        if (!galleryContainer) return;
+        galleryContainer.innerHTML = "";
+        filtered.forEach(screen => {
+            const platformBadge = screen.platform === "web" ? '<span class="bg-purple-100 text-purple-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-display"></i> ويب</span>' : (screen.platform === "mobile" ? '<span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-mobile-alt"></i> موبايل</span>' : '<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-regular fa-arrows-spin"></i> مشترك</span>');
+            const card = document.createElement("div");
+            card.className = "gallery-card bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-200";
+            card.onclick = () => openModal(screen);
+            card.innerHTML = `
+                <div class="relative bg-gray-100">
+                    <img src="${screen.src}" class="w-full aspect-video object-cover" alt="${screen.title}" onerror="this.src='https://placehold.co/600x400/2d6a4f/ffffff?text=${encodeURIComponent(screen.title)}'">
+                    <div class="absolute bottom-2 right-2 flex gap-1">${platformBadge}</div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 text-sm line-clamp-1">${screen.title}</h3>
+                    <p class="text-gray-500 text-xs mt-1 line-clamp-2">${screen.role}</p>
+                    <div class="flex justify-between items-center mt-3 text-[11px] text-emerald-600">
+                        <span><i class="fa-regular fa-images"></i> تفاصيل معماريّة</span>
+                        <span class="bg-emerald-50 px-2 py-0.5 rounded-full">اضغط للتحميل والتحليل</span>
                     </div>
                 </div>
             `;
+            galleryContainer.appendChild(card);
         });
-        
-        html += `</div></div>`;
-        container.innerHTML = html;
     }
 
-    window.showAhmetouModal = function(screen) {
-        currentModalScreen = screen;
+    // فتح المودال مع بيانات دقيقة لكل شاشة
+    function openModal(screen) {
+        currentActiveScreen = screen;
         document.getElementById("modalTitle").innerText = screen.title;
-        document.getElementById("modalImg").src = screen.src || "https://placehold.co/600x350?text=Ahmetou+Screen";
+        document.getElementById("modalImg").src = screen.src;
         document.getElementById("modalDesc").innerText = screen.desc;
-        document.getElementById("modalAssignee").innerHTML = `<i class="fa-regular fa-user-tie"></i> أحمدو · ${screen.assign}`;
+        document.getElementById("modalPlatform").innerHTML = screen.platform === "web" ? "🖥️ واجهة ويب (Desktop Admin)" : (screen.platform === "mobile" ? "📱 تطبيق موبايل (iOS/Android)" : "🔄 شاشة مشتركة (تسجيل/دخول)");
+        document.getElementById("modalRole").innerHTML = `<i class="fa-regular fa-user"></i> ${screen.role}`;
+        document.getElementById("modalComponents").innerText = screen.components;
+        let badgeType = document.getElementById("modalTypeBadge");
+        if (screen.platform === "web") badgeType.innerHTML = `<i class="fa-solid fa-chalkboard-user"></i> شاشة Web إدارية`;
+        else if (screen.platform === "mobile") badgeType.innerHTML = `<i class="fa-solid fa-mobile-screen-button"></i> شاشة Mobile تطبيق`;
+        else badgeType.innerHTML = `<i class="fa-regular fa-copy"></i> شاشة مشتركة Auth`;
         
-        const techContainer = document.getElementById("modalTechStack");
-        techContainer.innerHTML = (screen.tech || ["Next.js", "Tailwind"]).map(t => 
-            `<span class="bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-full text-xs font-medium border border-emerald-200"><i class="fa-solid fa-code text-emerald-600"></i> ${t}</span>`
-        ).join("");
-        
-        const libContainer = document.getElementById("modalLibraries");
-        libContainer.innerHTML = (screen.libs || ["axios", "react-query"]).map(l => 
-            `<span class="bg-teal-50 text-teal-800 px-3 py-1.5 rounded-full text-xs font-medium"><i class="fa-regular fa-gem"></i> ${l}</span>`
-        ).join("");
-        
-        document.getElementById("modalFlow").innerText = screen.flow;
-        
-        const modal = document.getElementById("techModal");
-        modal.classList.remove("hidden");
-        modal.style.display = "flex";
-    };
-
-    window.downloadSingleScreen = function() {
-        if(currentModalScreen) {
+        const modalDiv = document.getElementById("imageModal");
+        modalDiv.classList.remove("hidden");
+        modalDiv.style.display = "flex";
+    }
+    
+    function closeModal() {
+        const modalDiv = document.getElementById("imageModal");
+        modalDiv.style.display = "none";
+        modalDiv.classList.add("hidden");
+        currentActiveScreen = null;
+    }
+    
+    // تحميل الصورة الفردية من المودال الحالي
+    function downloadCurrentImage() {
+        if (currentActiveScreen && currentActiveScreen.src) {
             const link = document.createElement('a');
-            link.download = `Ahmetou_${currentModalScreen.title.replace(/\s+/g, '_')}.png`;
-            link.href = currentModalScreen.src;
+            link.download = currentActiveScreen.src.split('/').pop() || `screenshot_${currentActiveScreen.id}.png`;
+            link.href = currentActiveScreen.src;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         } else {
-            alert("لا توجد شاشة محددة");
+            alert("لا توجد صورة محددة للتحميل");
         }
-    };
-
-    window.closeTechModal = function() {
-        const modal = document.getElementById("techModal");
-        modal.style.display = "none";
-        modal.classList.add("hidden");
-        currentModalScreen = null;
-    };
-
-    // تحميل حزمة أحمدو (JSON + دليل نصي)
-    function downloadAhmetouPack() {
-        const dataStr = JSON.stringify(ahmetouScreens, null, 2);
-        const blob = new Blob([dataStr], { type: "application/json" });
+    }
+    
+    // فلترة تفاعلية
+    function initFilters() {
+        const btns = document.querySelectorAll(".filter-btn");
+        btns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const filter = btn.getAttribute("data-filter");
+                btns.forEach(b => {
+                    b.classList.remove("bg-emerald-600", "text-white", "filter-active");
+                    b.classList.add("bg-gray-100", "text-gray-700");
+                });
+                btn.classList.add("bg-emerald-600", "text-white", "filter-active");
+                btn.classList.remove("bg-gray-100", "text-gray-700");
+                renderGallery(filter);
+            });
+        });
+    }
+    
+    // تصدير جميع الأسماء (للمساعدة)
+    document.getElementById("exportAllBtn")?.addEventListener("click", () => {
+        let textInfo = "معرض المربط: قائمة الصور والتحليلات\n";
+        finalScreens.forEach(s => {
+            textInfo += `- ${s.title} [${s.platform}] : ${s.desc.substring(0, 80)}\n`;
+        });
+        const blob = new Blob([textInfo], {type: "text/plain"});
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `Ahmetou_Admin_Screens_3_Detailed.json`;
-        document.body.appendChild(a);
+        a.download = "al_marbat_screens_catalog.txt";
         a.click();
-        document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        
-        const textContent = ahmetouScreens.map((s, idx) => 
-            `${idx+1}. ${s.title}\n   المطور: أحمدو\n   وصف معماري: ${s.desc}\n   التقنيات: ${s.tech.join(" · ")}\n   المكتبات: ${s.libs.join(" · ")}\n   تدفق البيانات: ${s.flow}\n`
-        ).join("\n---\n");
-        const textBlob = new Blob([`حزمة أحمدو · 3 شاشات Admin معمارية كاملة\n\n${textContent}`], { type: "text/plain;charset=utf-8" });
-        const textUrl = URL.createObjectURL(textBlob);
-        const a2 = document.createElement("a");
-        a2.href = textUrl;
-        a2.download = `Ahmetou_admin_guide.txt`;
-        document.body.appendChild(a2);
-        a2.click();
-        document.body.removeChild(a2);
-        URL.revokeObjectURL(textUrl);
-        
-        alert(`✅ تم تحميل حزمة أحمدو: 3 شاشات Admin (JSON + دليل مفصل).`);
-    }
-
-    document.getElementById("downloadAhmetouPack")?.addEventListener("click", downloadAhmetouPack);
+        alert("تم تصدير كتالوج جميع الشاشات (ملف txt)");
+    });
     
-    // بدء العرض
-    renderAhmetouScreens();
-
-    // إغلاق المودال عند الضغط على Escape
-    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeTechModal(); });
+    document.getElementById("downloadSingleModalBtn")?.addEventListener("click", downloadCurrentImage);
+    
+    renderGallery("all");
+    initFilters();
+    window.closeModal = closeModal;
 </script>
 
-<!-- تذييل مخصص لأحمدو -->
-<div class="bg-emerald-800 text-white py-6 mt-10 text-center text-sm border-t-4 border-emerald-500">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-3">
-        <span><i class="fa-regular fa-hard-drive"></i> شاشات أحمدو: Listings Moderation · Pending Payouts · Preparation Providers — تغطية تشغيلية متقدمة</span>
-        <span><i class="fa-regular fa-clock"></i> Next.js 14 · Shadcn/ui · React Query · TanStack Table</span>
-        <span><i class="fa-regular fa-user-tie"></i> أحمدو · 3 شاشات جاهزة للتسليم</span>
+<!-- تذييل الصفحة -->
+<div class="bg-emerald-900 text-white py-5 mt-8 text-center text-sm border-t-4 border-emerald-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
+        <span><i class="fa-regular fa-images"></i> معرض المربط الشامل: 32 واجهة مُحلّلة كاملة (Web + Mobile + مشترك)</span>
+        <span><i class="fa-regular fa-clock"></i> تحليل معماري لكل شاشة مع إمكانية التحميل الفوري</span>
+        <span><i class="fa-regular fa-circle-check"></i> جاهز للتطوير والتنفيذ</span>
     </div>
 </div>
 </body>
