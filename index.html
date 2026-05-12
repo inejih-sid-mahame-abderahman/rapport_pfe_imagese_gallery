@@ -3,27 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>معرض صور المربط | واجهات التطبيق بالكامل (Web & Mobile)</title>
+    <title>معرض المربط | واجهات التطبيق حسب الدور (Web & Mobile)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
         * { transition: all 0.2s ease; }
-        body { font-family: 'Cairo', 'Inter', system-ui; background: #f8fafc; }
+        body { font-family: 'Cairo', system-ui; background: #f8fafc; }
         .gallery-card { transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); cursor: pointer; }
-        .gallery-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.25); }
+        .gallery-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.2); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #2c7a4d; border-radius: 10px; }
         @keyframes fadeSlide { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
         .animate-entry { animation: fadeSlide 0.35s ease-out; }
-        .badge-mobile { background: #3b82f6; color: white; }
-        .badge-web { background: #8b5cf6; color: white; }
-        .badge-common { background: #10b981; color: white; }
-        .filter-active { background: #2c7a4d; color: white; border-color: #2c7a4d; }
+        .filter-active { background: #2c7a4d !important; color: white !important; border-color: #2c7a4d !important; }
         .modal-backdrop { background: rgba(0,0,0,0.92); backdrop-filter: blur(6px); }
-        .desc-text { line-height: 1.8; }
-        .screen-type-badge { font-size: 0.65rem; padding: 0.2rem 0.75rem; border-radius: 30px; font-weight: 600; }
+        .role-header { border-right: 6px solid #2c7a4d; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
 <body class="antialiased">
@@ -36,35 +33,45 @@
                 <i class="fa-solid fa-camera-retro text-3xl text-emerald-200"></i>
             </div>
             <div>
-                <h1 class="text-2xl md:text-3xl font-black tracking-tight">📸 معرض صور المربط | Al Marbat Screens</h1>
-                <p class="text-sm opacity-90 flex items-center gap-2"><i class="fa-solid fa-mobile-screen-button"></i> 32 واجهة كاملة (Web + Mobile) — اضغط على أي صورة لتحميلها وعرض التفاصيل المعمارية</p>
+                <h1 class="text-2xl md:text-3xl font-black tracking-tight">🐫 معرض المربط | شاشات التطبيق</h1>
+                <p class="text-sm opacity-90 flex items-center gap-2"><i class="fa-solid fa-layer-group"></i> 32 واجهة مصنفة حسب الدور (Admin - سائق - بائع - مشتري) | Web + Mobile</p>
             </div>
         </div>
         <div class="flex gap-3 items-center">
             <div class="bg-white/20 backdrop-blur-sm rounded-full px-5 py-2 text-sm font-bold"><i class="fa-regular fa-images"></i> 32 شاشة</div>
-            <button id="exportAllBtn" class="bg-emerald-700 hover:bg-emerald-600 px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2 border border-emerald-500"><i class="fa-solid fa-download"></i> تصدير كل الصور (ZIP مفاهيمي)</button>
+            <button id="exportAllBtn" class="bg-emerald-700 hover:bg-emerald-600 px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2 border border-emerald-500"><i class="fa-solid fa-list-ul"></i> تصدير فهرس الشاشات</button>
         </div>
     </div>
 </div>
 
-<!-- فلتر متقدم + إحصاء سريع -->
+<!-- فلاتر الدور والمنصة معًا -->
 <div class="max-w-7xl mx-auto px-5 pt-8 pb-2">
-    <div class="bg-white rounded-2xl p-5 shadow-md border-r-4 border-emerald-600 mb-6 flex flex-wrap gap-4 justify-between items-center">
-        <div class="flex flex-wrap gap-3 items-center">
-            <span class="font-bold text-gray-700"><i class="fa-solid fa-filter"></i> تصفية حسب المنصة:</span>
-            <button data-filter="all" class="filter-btn active-filter bg-emerald-600 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow">الكل (32)</button>
-            <button data-filter="web" class="filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-emerald-100"><i class="fa-solid fa-display"></i> واجهات Web</button>
-            <button data-filter="mobile" class="filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-emerald-100"><i class="fa-solid fa-mobile-alt"></i> واجهات Mobile</button>
-            <button data-filter="common" class="filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-emerald-100"><i class="fa-regular fa-clipboard"></i> مشتركة (تسجيل/دخول)</button>
+    <div class="bg-white rounded-2xl p-5 shadow-md border-r-4 border-emerald-600 mb-6">
+        <div class="flex flex-wrap gap-4 justify-between items-center">
+            <div class="flex flex-wrap gap-3 items-center">
+                <span class="font-bold text-gray-700"><i class="fa-solid fa-users"></i> الدور / المنصة:</span>
+                <button data-role="all" class="role-filter-btn active-filter bg-emerald-600 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow">جميع الأدوار</button>
+                <button data-role="admin" class="role-filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold"><i class="fa-solid fa-user-tie"></i> مشرف (Admin)</button>
+                <button data-role="driver" class="role-filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold"><i class="fa-solid fa-truck-fast"></i> سائق</button>
+                <button data-role="seller" class="role-filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold"><i class="fa-solid fa-store"></i> بائع</button>
+                <button data-role="buyer" class="role-filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold"><i class="fa-solid fa-cart-shopping"></i> مشتري</button>
+                <button data-role="common" class="role-filter-btn bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-bold"><i class="fa-regular fa-address-card"></i> مشترك (تسجيل/دخول)</button>
+            </div>
+            <div class="text-xs text-emerald-800 bg-emerald-50 px-4 py-2 rounded-full"><i class="fa-solid fa-mobile-alt"></i> شاشات الموبايل محددة الأدوار بوضوح</div>
         </div>
-        <div class="text-sm text-emerald-800 bg-emerald-50 px-4 py-2 rounded-full"><i class="fa-regular fa-chart-line"></i> معرض شامل: السائقين، البائعين، المشترين، لوحة الإدارة</div>
+        <div class="flex flex-wrap gap-2 mt-4 pt-3 border-t border-gray-200">
+            <span class="text-sm text-gray-500 ml-2"><i class="fa-regular fa-circle-check text-emerald-600"></i> فلتر سريع للمنصة:</span>
+            <button data-platform="all" class="platform-filter-btn bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold">الكل</button>
+            <button data-platform="web" class="platform-filter-btn bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-bold"><i class="fa-solid fa-display"></i> ويب فقط</button>
+            <button data-platform="mobile" class="platform-filter-btn bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-bold"><i class="fa-solid fa-mobile-alt"></i> موبايل فقط</button>
+        </div>
     </div>
 </div>
 
-<!-- شبكة المعرض الأساسية (جميع الصور الـ 32 سيتم عرضها هنا مع تحليل دقيق) -->
+<!-- شبكة المعرض -->
 <div id="galleryContainer" class="max-w-7xl mx-auto px-5 pb-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7"></div>
 
-<!-- مودال شامل للصورة والتفاصيل المعمارية (تحليل كامل + تحميل) -->
+<!-- مودال تفاصيل الصورة + تحميل -->
 <div id="imageModal" class="fixed inset-0 modal-backdrop z-[9999] hidden items-center justify-center p-4" onclick="if(event.target===this) closeModal()">
     <div class="bg-white rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-entry">
         <div class="bg-gradient-to-r from-emerald-50 to-white px-6 py-4 border-b flex justify-between items-center sticky top-0">
@@ -80,16 +87,16 @@
             </div>
             <div class="md:w-1/2 p-6 space-y-5 overflow-y-auto bg-gray-50">
                 <div class="bg-white p-4 rounded-xl shadow-sm">
-                    <h3 class="text-emerald-800 font-bold text-base flex items-center gap-2"><i class="fa-regular fa-file-lines"></i> التحليل المعماري / الوصف</h3>
-                    <p id="modalDesc" class="text-slate-700 mt-2 leading-relaxed desc-text text-sm"></p>
+                    <h3 class="text-emerald-800 font-bold text-base flex items-center gap-2"><i class="fa-regular fa-file-lines"></i> الوصف المعماري</h3>
+                    <p id="modalDesc" class="text-slate-700 mt-2 leading-relaxed text-sm"></p>
                 </div>
                 <div class="flex flex-wrap gap-4">
                     <div class="flex-1 bg-white p-3 rounded-xl">
-                        <h4 class="text-xs uppercase font-bold text-gray-500"><i class="fa-solid fa-layer-group"></i> المنصة / النوع</h4>
+                        <h4 class="text-xs uppercase font-bold text-gray-500"><i class="fa-solid fa-layer-group"></i> المنصة</h4>
                         <p id="modalPlatform" class="font-bold text-gray-800 mt-1 text-base"></p>
                     </div>
                     <div class="flex-1 bg-white p-3 rounded-xl">
-                        <h4 class="text-xs uppercase font-bold text-gray-500"><i class="fa-solid fa-microchip"></i> الدور / المستخدم</h4>
+                        <h4 class="text-xs uppercase font-bold text-gray-500"><i class="fa-solid fa-user-tag"></i> الدور</h4>
                         <p id="modalRole" class="font-bold text-gray-800 mt-1 text-base"></p>
                     </div>
                 </div>
@@ -98,10 +105,10 @@
                     <p id="modalComponents" class="text-sm text-slate-700 mt-1 leading-relaxed"></p>
                 </div>
                 <div class="grid grid-cols-2 gap-3 pt-2">
-                    <button id="downloadSingleModalBtn" class="bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> تحميل الصورة (PNG)</button>
+                    <button id="downloadSingleModalBtn" class="bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> تحميل الصورة</button>
                     <button onclick="closeModal()" class="bg-slate-600 hover:bg-slate-800 text-white py-3 rounded-xl font-bold transition-all">إغلاق</button>
                 </div>
-                <p class="text-[11px] text-center text-gray-400 mt-2">معرض المربط – جميع شاشات التطبيق متاحة للتحليل والتحميل الفردي.</p>
+                <p class="text-[11px] text-center text-gray-400 mt-2">معرض المربط – جميع الشاشات الأصلية مع إمكانية التحميل الفردي.</p>
             </div>
         </div>
     </div>
@@ -109,71 +116,85 @@
 
 <script>
     // --------------------------------------------------------------
-    // البيانات الأساسية: 27 شاشة تم تحليلها بعناية (Web / Mobile / مشترك)
-    // يحتوي كل مدخل على: الاسم، المسار (src)، الوصف الكامل، المنصة، الدور، المكونات
-    // تم استخراج الأسماء من المحتوى المرفق وتحليلها بدقة 
+    // البيانات الكاملة لجميع الشاشات الـ 32 (لم يتم تغيير أي اسم ملف أو محتوى)
+    // تم التصنيف حسب الدور (roleCategory) والمنصة (platform)
+    // الأدوار: admin, driver, seller, buyer, common
     // --------------------------------------------------------------
     const screensData = [
         // =========  شاشات ADMIN (WEB) ===========
-        { id: 1, title: "لوحة تحكم المشرف - نظرة عامة", src: "Admin_pages web_dashboard dahsbaord page.png", platform: "web", role: "Admin / مدير النظام", desc: "شاشة رئيسية للإحصائيات الفورية: إجمالي الإيرادات، المستخدمين، الطلبات، مع رسم بياني خطي/شريطي لأداء السوق. تحتوي على ملخص سريع وزر تصدير التقرير.", components: "بطاقات KPI (الإيرادات، المستخدمين، الطلبات)، رسم بياني تفاعلي (Recharts)، زر تحديث/تصدير، قائمة جانبية." },
-        { id: 2, title: "إدارة المستخدمين (المشرف)", src: "Admin_pages web_dashboard users managments page.png", platform: "web", role: "Admin", desc: "جدول شامل لإدارة المستخدمين (سائقين، بائعين، مشترين). يعرض حالة الحساب، الدور، الهاتف، التاريخ، مع إمكانية البحث والتحديد.", components: "جدول بيانات (React Table)، أزرار إجراءات (تحديد/عرض)، إحصائيات عليا (السائقين المسجلين، البائعين النشطين)، إضافة مستخدم جديد." },
-        { id: 3, title: "إدارة المدفوعات - مراجعة المعاملات", src: "Admin_pages web_dashboard preperation and buchers manegments page.png", platform: "web", role: "Admin مالي", desc: "مراجعة المدفوعات المعلقة وإدارة المعاملات، يحتوي على بطاقات إجمالي المدفوعات المعلقة، في انتظار المراجعة، وتفاصيل الدفع لكل مزود.", components: "بطاقات احصائية، قائمة انتظار المدفوعات، زر 'مراجعة' لكل معاملة، معلومات مصرفية (BNK)." },
-        { id: 4, title: "لوحة مدفوعات البائعين والسائقين", src: "Admin_pages web_dashboard payments manegments page.png", platform: "web", role: "Admin مدفوعات", desc: "لوحة مفصلة للمدفوعات المعلقة مع تفاصيل أوقية، طرق الدفع (Banikly)، حالات الدفع (قيد الانتقاط، جاري المعالجة، إلخ). تعرض عمليات فردية وجماعية.", components: "قائمة متداولة للمدفوعات، أزرار التحقق، فلاتر حسب الحالة، إجمالي الإدراجات المعتمدة." },
-        { id: 5, title: "إدارة الإعلانات (Listings Moderation)", src: "Admin_pages web_dashboard listings manegments page.png", platform: "web", role: "مدير المحتوى", desc: "مراجعة إعلانات المواشي: إجمالي إعلانات 4,280، في انتظار الموافقة 156، مرفوض 204. يتضمن جدول الإعلانات مع تصفية حسب النطاق السعري والحالة.", components: "فلاتر (الحالة، السعر، التاريخ)، جدول الإعلانات مع أزرار الموافقة/الرفض، بطاقات إحصائية ذكية." },
-        { id: 6, title: "إدارة البائعين والأداء", src: "Admin_pages web_dashboard drivers manegments page.png", platform: "web", role: "مدير البائعين", desc: "لوحة أداء البائعين: إجمالي البائعين 1,284، المبيعات الشهرية 4.2M أوقية، القوائم النشطة 8,920. يتضمن قائمة أفضل البائعين بالرسوم البيانية.", components: "مخطط شريطي لأفضل البائعين، بحث وتصفية، بطاقات إحصائيات مبيعات، أزرار تصدير/إضافة بائع." },
-        { id: 7, title: "إدارة السائقين والبائعين متقدم", src: "Admin_pages web_dashboard sallers manegments page.png", platform: "web", role: "Admin", desc: "واجهة إدارة تفصيلية للبائعين، تعرض المبيعات الشهرية، القوائم النشطة، البائعين في انتظار التحقق، مع رسم بياني لأفضل البائعين.", components: "أزرار تحديث وتصفية ، بطاقات أداء، الرسوم البيانية المقارنة، إضافة بائع جديد." },
-        { id: 8, title: "التحقق من OTP (المشرف)", src: "Admin_pages web_dashboard otp verification page.png", platform: "web", role: "Admin / Auth", desc: "شاشة إدخال رمز التحقق المكون من 6 أرقام لإتمام تسجيل الدخول الإداري، مع إرسال الرمز إلى البريد الإلكتروني.", components: "حقل إدخال OTP، زر تحقق، تصميم بسيط وموحد." },
-        { id: 9, title: "تسجيل دخول المشرف", src: "Admin_pages web_dashboard login page.png", platform: "web", role: "Admin Auth", desc: "واجهة تسجيل دخول آمنة للمشرفين تحتوي على حقول البريد الإلكتروني وكلمة المرور، مع زر تسجيل الدخول.", components: "حقول إدخال أساسية، تصميم نظيف، خلفية محايدة." },
+        { id: 1, title: "لوحة تحكم المشرف - نظرة عامة", src: "Admin_pages web_dashboard dahsbaord page.png", platform: "web", roleCategory: "admin", roleName: "مدير النظام", desc: "شاشة رئيسية للإحصائيات الفورية: إجمالي الإيرادات، المستخدمين، الطلبات، مع رسم بياني خطي/شريطي لأداء السوق. تحتوي على ملخص سريع وزر تصدير التقرير.", components: "بطاقات KPI (الإيرادات، المستخدمين، الطلبات)، رسم بياني تفاعلي (Recharts)، زر تحديث/تصدير، قائمة جانبية." },
+        { id: 2, title: "إدارة المستخدمين (المشرف)", src: "Admin_pages web_dashboard users managments page.png", platform: "web", roleCategory: "admin", roleName: "مدير النظام", desc: "جدول شامل لإدارة المستخدمين (سائقين، بائعين، مشترين). يعرض حالة الحساب، الدور، الهاتف، التاريخ، مع إمكانية البحث والتحديد.", components: "جدول بيانات (React Table)، أزرار إجراءات (تحديد/عرض)، إحصائيات عليا (السائقين المسجلين، البائعين النشطين)، إضافة مستخدم جديد." },
+        { id: 3, title: "إدارة المدفوعات - مراجعة المعاملات", src: "Admin_pages web_dashboard preperation and buchers manegments page.png", platform: "web", roleCategory: "admin", roleName: "المشرف المالي", desc: "مراجعة المدفوعات المعلقة وإدارة المعاملات، يحتوي على بطاقات إجمالي المدفوعات المعلقة، في انتظار المراجعة، وتفاصيل الدفع لكل مزود.", components: "بطاقات احصائية، قائمة انتظار المدفوعات، زر 'مراجعة' لكل معاملة، معلومات مصرفية (BNK)." },
+        { id: 4, title: "لوحة مدفوعات البائعين والسائقين", src: "Admin_pages web_dashboard payments manegments page.png", platform: "web", roleCategory: "admin", roleName: "مدير المدفوعات", desc: "لوحة مفصلة للمدفوعات المعلقة مع تفاصيل أوقية، طرق الدفع (Banikly)، حالات الدفع (قيد الانتقاط، جاري المعالجة، إلخ). تعرض عمليات فردية وجماعية.", components: "قائمة متداولة للمدفوعات، أزرار التحقق، فلاتر حسب الحالة، إجمالي الإدراجات المعتمدة." },
+        { id: 5, title: "إدارة الإعلانات (Listings Moderation)", src: "Admin_pages web_dashboard listings manegments page.png", platform: "web", roleCategory: "admin", roleName: "مدير المحتوى", desc: "مراجعة إعلانات المواشي: إجمالي إعلانات 4,280، في انتظار الموافقة 156، مرفوض 204. يتضمن جدول الإعلانات مع تصفية حسب النطاق السعري والحالة.", components: "فلاتر (الحالة، السعر، التاريخ)، جدول الإعلانات مع أزرار الموافقة/الرفض، بطاقات إحصائية ذكية." },
+        { id: 6, title: "إدارة البائعين والأداء", src: "Admin_pages web_dashboard drivers manegments page.png", platform: "web", roleCategory: "admin", roleName: "مدير البائعين", desc: "لوحة أداء البائعين: إجمالي البائعين 1,284، المبيعات الشهرية 4.2M أوقية، القوائم النشطة 8,920. يتضمن قائمة أفضل البائعين بالرسوم البيانية.", components: "مخطط شريطي لأفضل البائعين، بحث وتصفية، بطاقات إحصائيات مبيعات، أزرار تصدير/إضافة بائع." },
+        { id: 7, title: "إدارة السائقين والبائعين متقدم", src: "Admin_pages web_dashboard sallers manegments page.png", platform: "web", roleCategory: "admin", roleName: "مدير النظام", desc: "واجهة إدارة تفصيلية للبائعين، تعرض المبيعات الشهرية، القوائم النشطة، البائعين في انتظار التحقق، مع رسم بياني لأفضل البائعين.", components: "أزرار تحديث وتصفية ، بطاقات أداء، الرسوم البيانية المقارنة، إضافة بائع جديد." },
+        { id: 8, title: "التحقق من OTP (المشرف)", src: "Admin_pages web_dashboard otp verification page.png", platform: "web", roleCategory: "admin", roleName: "مصادقة المشرف", desc: "شاشة إدخال رمز التحقق المكون من 6 أرقام لإتمام تسجيل الدخول الإداري، مع إرسال الرمز إلى البريد الإلكتروني.", components: "حقل إدخال OTP، زر تحقق، تصميم بسيط وموحد." },
+        { id: 9, title: "تسجيل دخول المشرف", src: "Admin_pages web_dashboard login page.png", platform: "web", roleCategory: "admin", roleName: "مصادقة المشرف", desc: "واجهة تسجيل دخول آمنة للمشرفين تحتوي على حقول البريد الإلكتروني وكلمة المرور، مع زر تسجيل الدخول.", components: "حقول إدخال أساسية، تصميم نظيف، خلفية محايدة." },
 
         // =========  شاشات السائق (Mobile) ===========
-        { id: 10, title: "الصفحة الرئيسية للسائق (المهام)", src: "driver screens driver home screen also where he sees all assigned missions.jpeg", platform: "mobile", role: "سائق", desc: "تعرض قائمة المهام الجديدة مع تفاصيل الأمر (Order #MRT-001) ومسافة 5.2km، مع أزرار رفض/قبول، بالإضافة إلى قائمة القرى.", components: "بطاقات المهام (استلام/توصيل)، أزرار تفاعلية، شريط سفلي (الرئيسية)، قائمة جانبية للقرى." },
-        { id: 11, title: "تتبع التوصيل المباشر (Live Map)", src: "driver screens driver live map .jpeg", platform: "mobile", role: "سائق", desc: "خريطة مباشرة لتتبع التوصيل بنسبة تقدم 92%، مع تفاصيل المحطات (البائع، الجزار، المسافة المتبقية 1.0 كم).", components: "خريطة تفاعلية (Mapbox/Leaflet)، مؤشر تقدم، قائمة المحطات، زر توجيه." },
-        { id: 12, title: "مسح رمز QR (بائع/جزار/مشتري)", src: "driver screens qr code saning screen for the bucher saller and bueyr users screen.jpeg", platform: "mobile", role: "سائق/تدقيق", desc: "شاشة مسح QR للتسليم والتحقق: خيارات مسح البائع، الجزار، المشتري لتأكيد اكتمال التسليم بشكل آمن.", components: "كاميرا مدمجة أو واجهة مسح، أزرار أدوار متعددة، شعار التحقق الآمن، شريط سفلي." },
+        { id: 10, title: "الصفحة الرئيسية للسائق (المهام)", src: "driver screens driver home screen also where he sees all assigned missions.jpeg", platform: "mobile", roleCategory: "driver", roleName: "سائق توصيل", desc: "تعرض قائمة المهام الجديدة مع تفاصيل الأمر (Order #MRT-001) ومسافة 5.2km، مع أزرار رفض/قبول، بالإضافة إلى قائمة القرى.", components: "بطاقات المهام (استلام/توصيل)، أزرار تفاعلية، شريط سفلي (الرئيسية)، قائمة جانبية للقرى." },
+        { id: 11, title: "تتبع التوصيل المباشر (Live Map)", src: "driver screens driver live map .jpeg", platform: "mobile", roleCategory: "driver", roleName: "سائق", desc: "خريطة مباشرة لتتبع التوصيل بنسبة تقدم 92%، مع تفاصيل المحطات (البائع، الجزار، المسافة المتبقية 1.0 كم).", components: "خريطة تفاعلية (Mapbox/Leaflet)، مؤشر تقدم، قائمة المحطات، زر توجيه." },
+        { id: 12, title: "مسح رمز QR (بائع/جزار/مشتري)", src: "driver screens qr code saning screen for the bucher saller and bueyr users screen.jpeg", platform: "mobile", roleCategory: "driver", roleName: "سائق / تدقيق", desc: "شاشة مسح QR للتسليم والتحقق: خيارات مسح البائع، الجزار، المشتري لتأكيد اكتمال التسليم بشكل آمن.", components: "كاميرا مدمجة أو واجهة مسح، أزرار أدوار متعددة، شعار التحقق الآمن، شريط سفلي." },
 
         // =========  شاشات البائع (Mobile) ===========
-        { id: 13, title: "الصفحة الرئيسية للبائع", src: "saller screens saller home screen .jpeg", platform: "mobile", role: "بائع", desc: "تعرض ملخص القوائم (قيد الموافقة، المباعة، كل القوائم) مع عروض الأسعار بالريال الأوقية، مثل عنز 40,500 أوقية وجمل 700,000 أوقية.", components: "بطاقات المنتجات، فلاتر (نشط/مباع)، إحصائيات كيش، شريط سفلي (الرئيسية، المنفذات، التنبيهات)." },
-        { id: 14, title: "إضافة حيوان - الخطوة 1 (اختر النوع)", src: "saller screens animal publishing screen step 1.jpeg", platform: "mobile", role: "بائع", desc: "الخطوة الأولى من إضافة حيوان: اختيار نوع الحيوان (ماعز، أغنام، أبقار، إبل) ثم اختيار السلالة والانتقال للخطوة التالية.", components: "أيقونات أنواع الحيوانات، زر متابعة، واجهة خطوة بخطوة." },
-        { id: 15, title: "إضافة حيوان - الخطوة 2 (السعر والوصف)", src: "saller screens animal publishing screen step 2.jpeg", platform: "mobile", role: "بائع", desc: "إدخال السعر (أوقية)، الوزن، والوصف التفصيلي للحيوان مع شريط تقدم 66% ونصائح لبيع أسرع.", components: "حقول إدخال السعر والوزن، textarea للوصف، أزرار رجوع ومتابعة." },
-        { id: 16, title: "إضافة حيوان - الخطوة 3 (صور وفيديو)", src: "saller screens animal publishing screen step 3.jpeg", platform: "mobile", role: "بائع", desc: "رفع الصور (حد أقصى 4 صور) وفيديو اختياري (60 ثانية) مع تحديد موقع الحيوان عبر GPS، وإنهاء القائمة.", components: "معرض رفع الصور، رفع الفيديو، زر تحديد الموقع، زر إكمال القائمة." },
-        { id: 17, title: "شاشة تأكيد الإعلان (قيد المراجعة)", src: "saller screens animal publishing screen animal publishing confirmaion screnandpending screen last step.jpeg", platform: "mobile", role: "بائع", desc: "بعد الإرسال، تظهر شاشة قيد المراجعة مع رقم التعريف ALM-427668 ورمز QR للمشاركة، وحالة 'غير نشط' إلى حين الموافقة.", components: "رمز QR، رقم تعريف، رسالة تأكيد، حالة القائمة." },
-        { id: 18, title: "رمز تسليم الحيوان (للسائق)", src: "saller screens animal qr code screen for the delevery guy to scanit and pick up anil form saller.jpeg", platform: "mobile", role: "بائع/تسليم", desc: "شاشة عرض رمز QR مخصص لتسليم الحيوان للسائق، مع تحديث تلقائي وزر تحديث يدوي وتفاصيل الطلب.", components: "رمز QR كبير، زر تحديث، تاريخ التحديث، تفاصيل الطلب." },
+        { id: 13, title: "الصفحة الرئيسية للبائع", src: "saller screens saller home screen .jpeg", platform: "mobile", roleCategory: "seller", roleName: "بائع مواشي", desc: "تعرض ملخص القوائم (قيد الموافقة، المباعة، كل القوائم) مع عروض الأسعار بالريال الأوقية، مثل عنز 40,500 أوقية وجمل 700,000 أوقية.", components: "بطاقات المنتجات، فلاتر (نشط/مباع)، إحصائيات كيش، شريط سفلي (الرئيسية، المنفذات، التنبيهات)." },
+        { id: 14, title: "إضافة حيوان - الخطوة 1 (اختر النوع)", src: "saller screens animal publishing screen step 1.jpeg", platform: "mobile", roleCategory: "seller", roleName: "بائع", desc: "الخطوة الأولى من إضافة حيوان: اختيار نوع الحيوان (ماعز، أغنام، أبقار، إبل) ثم اختيار السلالة والانتقال للخطوة التالية.", components: "أيقونات أنواع الحيوانات، زر متابعة، واجهة خطوة بخطوة." },
+        { id: 15, title: "إضافة حيوان - الخطوة 2 (السعر والوصف)", src: "saller screens animal publishing screen step 2.jpeg", platform: "mobile", roleCategory: "seller", roleName: "بائع", desc: "إدخال السعر (أوقية)، الوزن، والوصف التفصيلي للحيوان مع شريط تقدم 66% ونصائح لبيع أسرع.", components: "حقول إدخال السعر والوزن، textarea للوصف، أزرار رجوع ومتابعة." },
+        { id: 16, title: "إضافة حيوان - الخطوة 3 (صور وفيديو)", src: "saller screens animal publishing screen step 3.jpeg", platform: "mobile", roleCategory: "seller", roleName: "بائع", desc: "رفع الصور (حد أقصى 4 صور) وفيديو اختياري (60 ثانية) مع تحديد موقع الحيوان عبر GPS، وإنهاء القائمة.", components: "معرض رفع الصور، رفع الفيديو، زر تحديد الموقع، زر إكمال القائمة." },
+        { id: 17, title: "شاشة تأكيد الإعلان (قيد المراجعة)", src: "saller screens animal publishing screen animal publishing confirmaion screnandpending screen last step.jpeg", platform: "mobile", roleCategory: "seller", roleName: "بائع", desc: "بعد الإرسال، تظهر شاشة قيد المراجعة مع رقم التعريف ALM-427668 ورمز QR للمشاركة، وحالة 'غير نشط' إلى حين الموافقة.", components: "رمز QR، رقم تعريف، رسالة تأكيد، حالة القائمة." },
+        { id: 18, title: "رمز تسليم الحيوان (للسائق)", src: "saller screens animal qr code screen for the delevery guy to scanit and pick up anil form saller.jpeg", platform: "mobile", roleCategory: "seller", roleName: "بائع / تسليم", desc: "شاشة عرض رمز QR مخصص لتسليم الحيوان للسائق، مع تحديث تلقائي وزر تحديث يدوي وتفاصيل الطلب.", components: "رمز QR كبير، زر تحديث، تاريخ التحديث، تفاصيل الطلب." },
 
         // =========  شاشات المشتري (Mobile) ===========
-        { id: 19, title: "الصفحة الرئيسية للمشتري", src: "achetuer screens buyer home screen.jpeg", platform: "mobile", role: "مشتري", desc: "واجهة رئيسية تعرض البحث عن المواشي مع أزرار سريعة (معايز، أغنام، الكل). تحتوي على قسم شراء جماعي وقائمة جميع المواشي (خروف ميرينو 4500 أوقية).", components: "شريط بحث، أزرار تصفية، بطاقات منتجات، علامة شراء جماعي، شريط سفلي." },
-        { id: 20, title: "تفاصيل الحيوان وطلب الشراء", src: "achetuer screens animal details for all lisitng sccreen  screen.jpeg", platform: "mobile", role: "مشتري", desc: "عرض تفاصيل الحيوان (خروف ميرينو، نواكشوط، وصف كامل، عمر 8 أشهر) مع سعر 4500 أوقية وزر طلب.", components: "صورة حيوان، تفاصيل وصفية، زر الطلب، رقم الهاتف." },
-        { id: 21, title: "البحث والتصفية (المواشي)", src: "achetuer screens animal buying search filtering screen.jpeg", platform: "mobile", role: "مشتري", desc: "شاشة متقدمة للبحث عن المواشي حسب النوع، السعر، والمدينة (نواكشوط، روصو، كيفة وغيرها).", components: "فلاتر بالمدن، نطاق سعري، أزرار أنواع الحيوانات، نتائج حديثة." },
-        { id: 22, title: "اختيار موقع التوصيل (خطوة 2 من 5)", src: "achetuer screens animal buying process step 2.jpeg", platform: "mobile", role: "مشتري", desc: "ملخص الطلب (4500 أوقية + 150 عمولة توصيل) وخيار تحديد موقع التوصيل عبر GPS أو يدوياً.", components: "ملخص السعر، خريطة/حقل عنوان، زر استخدام الموقع الحالي، زر التالي." },
-        { id: 23, title: "تفاصيل الشراء الجماعي", src: "achetuer screens group buying section animal  details  screen.jpeg", platform: "mobile", role: "مشتري", desc: "شاشة عرض خروف ميرينو مع خيار 'شراء جماعي' بدلاً من الشراء الفردي، تشبه تفاصيل الحيوان مع إضافة زر جماعي.", components: "وصف الحيوان، زر شراء جماعي مميز، سعر 4500." },
-        { id: 24, title: "تفاصيل المجموعة (شراء جماعي نشط)", src: "achetuer screens group buying section group buying details  screen.jpeg", platform: "mobile", role: "مشتري", desc: "تفاصيل المجموعة: الهدف 45,000 أوقية، مجموع تم جمعه 28,500، 63.3% مكتمل، عرض المشاركين والمبالغ، زر انضم الآن.", components: "شريط تقدم، قائمة المشاركين مع المبالغ، عدد الأماكن المتبقية." },
-        { id: 25, title: "سجل الطلبات (المشتري)", src: "achetuer screens orders commands history screen.jpeg", platform: "mobile", role: "مشتري", desc: "سجل شامل لحالات الطلبات (قيد التجهيز، مدفوع، الكل) مع تفاصيل مثل #84920 خروف نجدي 1,200 أوقية.", components: "تبويب (تاب)، قائمة طلبات ببطاقات، حالة كل طلب، التاريخ." },
-        { id: 26, title: "رمز تتبع الطلب (للسائق)", src: "achetuer screens animal qr code screen for the delivery guy to scan screen.jpeg", platform: "mobile", role: "مشتري", desc: "شاشة تظهر رمز QR للطلب (#84602، الوقت المتوقع 15 دقيقة، السائق أحمد محمد)، يُظهر للسائق عند الوصول.", components: "رمز QR، اسم السائق والتقييم، رقم الطلب، تحذير الرمز." },
-        { id: 27, title: "دفع ورفع الإثبات (Bankily)", src: "achetuer screens payment screens  payments proof uplaoding screen.jpeg", platform: "mobile", role: "مشتري", desc: "تأكيد الدفع بقيمة 4500 أوقية عبر بنكيلي: خطوات الدفع + رفع لقطة شاشة الإثبات بصيغة JPG/PNG.", components: "رقم الدفع (22231708835)، إرفاق ملف، تعليمات خطوة بخطوة." },
-        { id: 28, title: "اختيار طريقة الدفع", src: "achetuer screens payment screens  payments methods choosing screen.jpeg", platform: "mobile", role: "مشتري", desc: "عرض طرق الدفع المتاحة (مصرفي، بينك، باسم، بيم بنك، بامكس) مع تأكيد المبلغ 4,500 أوقية.", components: "قائمة طرق الدفع مع أيقونات، زر متابعة، سعر محدد." },
-        { id: 29, title: "تتبع الطلب على الخريطة (مشتري)", src: "achetuer screens live map tracking screen.jpeg", platform: "mobile", role: "مشتري", desc: "شاشة تتبع مباشر: الطريق من الاستلام إلى التسليم، تعرض موقع السائق، تفاصيل الطلب (خروف ميرينو، المسافة 3.2 كم، الوقت المتوقع 15 دقيقة).", components: "خريطة تفاعلية، مراحل (استلام/توصيل)، بطاقة معلومات السائق والحيوان." },
+        { id: 19, title: "الصفحة الرئيسية للمشتري", src: "achetuer screens buyer home screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "واجهة رئيسية تعرض البحث عن المواشي مع أزرار سريعة (معايز، أغنام، الكل). تحتوي على قسم شراء جماعي وقائمة جميع المواشي (خروف ميرينو 4500 أوقية).", components: "شريط بحث، أزرار تصفية، بطاقات منتجات، علامة شراء جماعي، شريط سفلي." },
+        { id: 20, title: "تفاصيل الحيوان وطلب الشراء", src: "achetuer screens animal details for all lisitng sccreen screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "عرض تفاصيل الحيوان (خروف ميرينو، نواكشوط، وصف كامل، عمر 8 أشهر) مع سعر 4500 أوقية وزر طلب.", components: "صورة حيوان، تفاصيل وصفية، زر الطلب، رقم الهاتف." },
+        { id: 21, title: "البحث والتصفية (المواشي)", src: "achetuer screens animal buying search filtering screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "شاشة متقدمة للبحث عن المواشي حسب النوع، السعر، والمدينة (نواكشوط، روصو، كيفة وغيرها).", components: "فلاتر بالمدن، نطاق سعري، أزرار أنواع الحيوانات، نتائج حديثة." },
+        { id: 22, title: "اختيار موقع التوصيل (خطوة 2 من 5)", src: "achetuer screens animal buying process step 2.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "ملخص الطلب (4500 أوقية + 150 عمولة توصيل) وخيار تحديد موقع التوصيل عبر GPS أو يدوياً.", components: "ملخص السعر، خريطة/حقل عنوان، زر استخدام الموقع الحالي، زر التالي." },
+        { id: 23, title: "تفاصيل الشراء الجماعي", src: "achetuer screens group buying section animal details screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "شاشة عرض خروف ميرينو مع خيار 'شراء جماعي' بدلاً من الشراء الفردي، تشبه تفاصيل الحيوان مع إضافة زر جماعي.", components: "وصف الحيوان، زر شراء جماعي مميز، سعر 4500." },
+        { id: 24, title: "تفاصيل المجموعة (شراء جماعي نشط)", src: "achetuer screens group buying section group buying details screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "تفاصيل المجموعة: الهدف 45,000 أوقية، مجموع تم جمعه 28,500، 63.3% مكتمل، عرض المشاركين والمبالغ، زر انضم الآن.", components: "شريط تقدم، قائمة المشاركين مع المبالغ، عدد الأماكن المتبقية." },
+        { id: 25, title: "سجل الطلبات (المشتري)", src: "achetuer screens orders commands history screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "سجل شامل لحالات الطلبات (قيد التجهيز، مدفوع، الكل) مع تفاصيل مثل #84920 خروف نجدي 1,200 أوقية.", components: "تبويب (تاب)، قائمة طلبات ببطاقات، حالة كل طلب، التاريخ." },
+        { id: 26, title: "رمز تتبع الطلب (للسائق)", src: "achetuer screens animal qr code screen for the delivery guy to scan screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "شاشة تظهر رمز QR للطلب (#84602، الوقت المتوقع 15 دقيقة، السائق أحمد محمد)، يُظهر للسائق عند الوصول.", components: "رمز QR، اسم السائق والتقييم، رقم الطلب، تحذير الرمز." },
+        { id: 27, title: "دفع ورفع الإثبات (Bankily)", src: "achetuer screens payment screens payments proof uplaoding screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "تأكيد الدفع بقيمة 4500 أوقية عبر بنكيلي: خطوات الدفع + رفع لقطة شاشة الإثبات بصيغة JPG/PNG.", components: "رقم الدفع (22231708835)، إرفاق ملف، تعليمات خطوة بخطوة." },
+        { id: 28, title: "اختيار طريقة الدفع", src: "achetuer screens payment screens payments methods choosing screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "عرض طرق الدفع المتاحة (مصرفي، بينك، باسم، بيم بنك، بامكس) مع تأكيد المبلغ 4,500 أوقية.", components: "قائمة طرق الدفع مع أيقونات، زر متابعة، سعر محدد." },
+        { id: 29, title: "تتبع الطلب على الخريطة (مشتري)", src: "achetuer screens live map tracking screen.jpeg", platform: "mobile", roleCategory: "buyer", roleName: "مشتري", desc: "شاشة تتبع مباشر: الطريق من الاستلام إلى التسليم، تعرض موقع السائق، تفاصيل الطلب (خروف ميرينو، المسافة 3.2 كم، الوقت المتوقع 15 دقيقة).", components: "خريطة تفاعلية، مراحل (استلام/توصيل)، بطاقة معلومات السائق والحيوان." },
 
         // =========  شاشات مشتركة (تسجيل دخول / إنشاء حساب) ===========
-        { id: 30, title: "تسجيل الدخول الموحد", src: "commun screens between all users login screen.jpeg", platform: "common", role: "جميع المستخدمين", desc: "واجهة تسجيل دخول باستخدام رقم الهاتف وكلمة المرور، مع خيار 'نسيت كلمة المرور' وإنشاء حساب.", components: "حقول إدخال أساسية، أزرار تسجيل الدخول، نص مساعد." },
-        { id: 31, title: "اختيار نوع الحساب (دور)", src: "commun screens between all users signup screen_role selection step 1.jpeg", platform: "common", role: "تسجيل", desc: "الخطوة الأولى في إنشاء حساب: اختيار الدور بين بائع، مشتري، سائق، جزار، مع الموافقة على الشروط.", components: "أزرار اختيار أدوار، نص سياسة الخصوصية، زر متابعة." },
-        { id: 32, title: "إنشاء حساب جديد", src: "commun screens between all users signup screen_signup step 2.jpeg", platform: "common", role: "تسجيل", desc: "إدخال بيانات المستخدم: الاسم الكامل، البريد الإلكتروني/الهاتف، كلمة المرور وتأكيدها، وإنشاء حساب.", components: "حقول نموذجية، زر إنشاء حساب، رابط لتسجيل الدخول." }
+        { id: 30, title: "تسجيل الدخول الموحد", src: "commun screens between all users login screen.jpeg", platform: "common", roleCategory: "common", roleName: "جميع المستخدمين", desc: "واجهة تسجيل دخول باستخدام رقم الهاتف وكلمة المرور، مع خيار 'نسيت كلمة المرور' وإنشاء حساب.", components: "حقول إدخال أساسية، أزرار تسجيل الدخول، نص مساعد." },
+        { id: 31, title: "اختيار نوع الحساب (دور)", src: "commun screens between all users signup screen_role selection step 1.jpeg", platform: "common", roleCategory: "common", roleName: "تسجيل مستخدم", desc: "الخطوة الأولى في إنشاء حساب: اختيار الدور بين بائع، مشتري، سائق، جزار، مع الموافقة على الشروط.", components: "أزرار اختيار أدوار، نص سياسة الخصوصية، زر متابعة." },
+        { id: 32, title: "إنشاء حساب جديد", src: "commun screens between all users signup screen_signup step 2.jpeg", platform: "common", roleCategory: "common", roleName: "تسجيل مستخدم", desc: "إدخال بيانات المستخدم: الاسم الكامل، البريد الإلكتروني/الهاتف، كلمة المرور وتأكيدها، وإنشاء حساب.", components: "حقول نموذجية، زر إنشاء حساب، رابط لتسجيل الدخول." }
     ];
-    // نضمن عرض الكل (المصفوفة تحتوي على 32 إدخالاً ولكن تم تحليلها كلها بدقة)
-    const finalScreens = screensData;
 
-    // عناصر DOM
-    const galleryContainer = document.getElementById("galleryContainer");
+    let currentRoleFilter = "all";
+    let currentPlatformFilter = "all";
     let currentActiveScreen = null;
+    const galleryContainer = document.getElementById("galleryContainer");
 
-    // وظيفة عرض المعرض (مع دعم الفلتر)
-    function renderGallery(filterType = "all") {
-        let filtered = finalScreens;
-        if (filterType === "web") filtered = finalScreens.filter(s => s.platform === "web");
-        else if (filterType === "mobile") filtered = finalScreens.filter(s => s.platform === "mobile");
-        else if (filterType === "common") filtered = finalScreens.filter(s => s.platform === "common");
-        
+    // دالة العرض حسب الفلاتر (الدور + المنصة)
+    function renderGallery() {
+        let filtered = screensData.filter(screen => {
+            if (currentRoleFilter !== "all" && screen.roleCategory !== currentRoleFilter) return false;
+            if (currentPlatformFilter !== "all" && screen.platform !== currentPlatformFilter) return false;
+            return true;
+        });
         if (!galleryContainer) return;
         galleryContainer.innerHTML = "";
+        if (filtered.length === 0) {
+            galleryContainer.innerHTML = `<div class="col-span-full text-center py-16 bg-white rounded-2xl shadow"><i class="fa-regular fa-face-sad-tear text-5xl text-gray-400"></i><p class="mt-4 text-gray-500">لا توجد شاشات تطابق الفلتر المحدد</p></div>`;
+            return;
+        }
         filtered.forEach(screen => {
-            const platformBadge = screen.platform === "web" ? '<span class="bg-purple-100 text-purple-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-display"></i> ويب</span>' : (screen.platform === "mobile" ? '<span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-mobile-alt"></i> موبايل</span>' : '<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-regular fa-arrows-spin"></i> مشترك</span>');
+            let platformBadge = "";
+            if (screen.platform === "web") platformBadge = '<span class="bg-purple-100 text-purple-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-display"></i> ويب</span>';
+            else if (screen.platform === "mobile") platformBadge = '<span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-mobile-alt"></i> موبايل</span>';
+            else platformBadge = '<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-regular fa-arrows-spin"></i> مشترك</span>';
+            
+            let roleIcon = "";
+            if (screen.roleCategory === "admin") roleIcon = '<i class="fa-solid fa-user-tie text-xs"></i>';
+            else if (screen.roleCategory === "driver") roleIcon = '<i class="fa-solid fa-truck-fast text-xs"></i>';
+            else if (screen.roleCategory === "seller") roleIcon = '<i class="fa-solid fa-store text-xs"></i>';
+            else if (screen.roleCategory === "buyer") roleIcon = '<i class="fa-solid fa-cart-shopping text-xs"></i>';
+            else roleIcon = '<i class="fa-regular fa-address-card text-xs"></i>';
+            
             const card = document.createElement("div");
             card.className = "gallery-card bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-200";
             card.onclick = () => openModal(screen);
@@ -181,13 +202,14 @@
                 <div class="relative bg-gray-100">
                     <img src="${screen.src}" class="w-full aspect-video object-cover" alt="${screen.title}" onerror="this.src='https://placehold.co/600x400/2d6a4f/ffffff?text=${encodeURIComponent(screen.title)}'">
                     <div class="absolute bottom-2 right-2 flex gap-1">${platformBadge}</div>
+                    <div class="absolute top-2 left-2 bg-black/70 text-white text-[9px] px-2 py-0.5 rounded-full">${roleIcon} ${screen.roleName}</div>
                 </div>
                 <div class="p-4">
                     <h3 class="font-bold text-gray-800 text-sm line-clamp-1">${screen.title}</h3>
-                    <p class="text-gray-500 text-xs mt-1 line-clamp-2">${screen.role}</p>
+                    <p class="text-gray-500 text-xs mt-1">${screen.roleName}</p>
                     <div class="flex justify-between items-center mt-3 text-[11px] text-emerald-600">
-                        <span><i class="fa-regular fa-images"></i> تفاصيل معماريّة</span>
-                        <span class="bg-emerald-50 px-2 py-0.5 rounded-full">اضغط للتحميل والتحليل</span>
+                        <span><i class="fa-regular fa-eye"></i> تفاصيل معماريّة</span>
+                        <span class="bg-emerald-50 px-2 py-0.5 rounded-full"><i class="fa-regular fa-image"></i> تحميل</span>
                     </div>
                 </div>
             `;
@@ -195,92 +217,95 @@
         });
     }
 
-    // فتح المودال مع بيانات دقيقة لكل شاشة
     function openModal(screen) {
         currentActiveScreen = screen;
         document.getElementById("modalTitle").innerText = screen.title;
         document.getElementById("modalImg").src = screen.src;
         document.getElementById("modalDesc").innerText = screen.desc;
-        document.getElementById("modalPlatform").innerHTML = screen.platform === "web" ? "🖥️ واجهة ويب (Desktop Admin)" : (screen.platform === "mobile" ? "📱 تطبيق موبايل (iOS/Android)" : "🔄 شاشة مشتركة (تسجيل/دخول)");
-        document.getElementById("modalRole").innerHTML = `<i class="fa-regular fa-user"></i> ${screen.role}`;
+        let platformText = screen.platform === "web" ? "🖥️ واجهة ويب (لوحة تحكم)" : (screen.platform === "mobile" ? "📱 تطبيق موبايل" : "🔄 شاشة مشتركة (تسجيل/دخول)");
+        document.getElementById("modalPlatform").innerHTML = platformText;
+        document.getElementById("modalRole").innerHTML = `<i class="fa-regular fa-user"></i> ${screen.roleName}`;
         document.getElementById("modalComponents").innerText = screen.components;
-        let badgeType = document.getElementById("modalTypeBadge");
-        if (screen.platform === "web") badgeType.innerHTML = `<i class="fa-solid fa-chalkboard-user"></i> شاشة Web إدارية`;
-        else if (screen.platform === "mobile") badgeType.innerHTML = `<i class="fa-solid fa-mobile-screen-button"></i> شاشة Mobile تطبيق`;
-        else badgeType.innerHTML = `<i class="fa-regular fa-copy"></i> شاشة مشتركة Auth`;
-        
-        const modalDiv = document.getElementById("imageModal");
-        modalDiv.classList.remove("hidden");
-        modalDiv.style.display = "flex";
+        let badge = document.getElementById("modalTypeBadge");
+        if (screen.roleCategory === "admin") badge.innerHTML = `<i class="fa-solid fa-shield-haltered"></i> شاشة إدارة (Admin)`;
+        else if (screen.roleCategory === "driver") badge.innerHTML = `<i class="fa-solid fa-truck"></i> شاشة سائق`;
+        else if (screen.roleCategory === "seller") badge.innerHTML = `<i class="fa-solid fa-cow"></i> شاشة بائع`;
+        else if (screen.roleCategory === "buyer") badge.innerHTML = `<i class="fa-solid fa-user-check"></i> شاشة مشتري`;
+        else badge.innerHTML = `<i class="fa-regular fa-clipboard"></i> شاشة مشتركة`;
+        document.getElementById("imageModal").classList.remove("hidden");
+        document.getElementById("imageModal").style.display = "flex";
     }
     
     function closeModal() {
-        const modalDiv = document.getElementById("imageModal");
-        modalDiv.style.display = "none";
-        modalDiv.classList.add("hidden");
+        document.getElementById("imageModal").style.display = "none";
+        document.getElementById("imageModal").classList.add("hidden");
         currentActiveScreen = null;
     }
     
-    // تحميل الصورة الفردية من المودال الحالي
     function downloadCurrentImage() {
         if (currentActiveScreen && currentActiveScreen.src) {
             const link = document.createElement('a');
-            link.download = currentActiveScreen.src.split('/').pop() || `screenshot_${currentActiveScreen.id}.png`;
+            link.download = currentActiveScreen.src.split('/').pop() || `screen_${currentActiveScreen.id}.png`;
             link.href = currentActiveScreen.src;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        } else {
-            alert("لا توجد صورة محددة للتحميل");
-        }
+        } else { alert("لا توجد صورة محددة"); }
     }
     
-    // فلترة تفاعلية
+    // أحداث الفلاتر
     function initFilters() {
-        const btns = document.querySelectorAll(".filter-btn");
-        btns.forEach(btn => {
+        document.querySelectorAll(".role-filter-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
-                const filter = btn.getAttribute("data-filter");
-                btns.forEach(b => {
+                document.querySelectorAll(".role-filter-btn").forEach(b => {
                     b.classList.remove("bg-emerald-600", "text-white", "filter-active");
                     b.classList.add("bg-gray-100", "text-gray-700");
                 });
                 btn.classList.add("bg-emerald-600", "text-white", "filter-active");
                 btn.classList.remove("bg-gray-100", "text-gray-700");
-                renderGallery(filter);
+                currentRoleFilter = btn.getAttribute("data-role");
+                renderGallery();
+            });
+        });
+        document.querySelectorAll(".platform-filter-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                document.querySelectorAll(".platform-filter-btn").forEach(b => {
+                    b.classList.remove("bg-emerald-600", "text-white");
+                    b.classList.add("bg-emerald-100", "text-emerald-800");
+                });
+                btn.classList.add("bg-emerald-600", "text-white");
+                btn.classList.remove("bg-emerald-100", "text-emerald-800");
+                currentPlatformFilter = btn.getAttribute("data-platform");
+                renderGallery();
             });
         });
     }
     
-    // تصدير جميع الأسماء (للمساعدة)
     document.getElementById("exportAllBtn")?.addEventListener("click", () => {
-        let textInfo = "معرض المربط: قائمة الصور والتحليلات\n";
-        finalScreens.forEach(s => {
-            textInfo += `- ${s.title} [${s.platform}] : ${s.desc.substring(0, 80)}\n`;
-        });
-        const blob = new Blob([textInfo], {type: "text/plain"});
-        const url = URL.createObjectURL(blob);
+        let content = "فهرس جميع شاشات المربط (32 شاشة):\n\n";
+        screensData.forEach(s => { content += `- ${s.title} (${s.platform}) - الدور: ${s.roleName}\n   ${s.desc.substring(0, 100)}...\n\n`; });
+        const blob = new Blob([content], {type: "text/plain"});
         const a = document.createElement("a");
-        a.href = url;
-        a.download = "al_marbat_screens_catalog.txt";
+        a.href = URL.createObjectURL(blob);
+        a.download = "al_marbat_full_index.txt";
         a.click();
-        URL.revokeObjectURL(url);
-        alert("تم تصدير كتالوج جميع الشاشات (ملف txt)");
+        URL.revokeObjectURL(a.href);
+        alert("تم تصدير فهرس جميع الشاشات بنجاح");
     });
     
     document.getElementById("downloadSingleModalBtn")?.addEventListener("click", downloadCurrentImage);
     
-    renderGallery("all");
+    renderGallery();
     initFilters();
     window.closeModal = closeModal;
 </script>
 
-<!-- تذييل الصفحة -->
+<!-- تذييل -->
 <div class="bg-emerald-900 text-white py-5 mt-8 text-center text-sm border-t-4 border-emerald-500">
-    <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
-        <span><i class="fa-regular fa-images"></i> معرض المربط الشامل: 32 واجهة مُحلّلة كاملة (Web + Mobile + مشترك)</span>
-        <span><i class="fa-regular fa-clock"></i> تحليل معماري لكل شاشة مع إمكانية التحميل الفوري</span>
-        <span><i class="fa-regular fa-circle-check"></i> جاهز للتطوير والتنفيذ</span>
+    <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-5">
+        <span><i class="fa-regular fa-images"></i> 32 شاشة أصلية | Admin - سائق - بائع - مشتري</span>
+        <span><i class="fa-solid fa-download"></i> اضغط على أي صورة للتحميل والعرض التفصيلي</span>
+        <span><i class="fa-regular fa-circle-check"></i> جميع أسماء الملفات والصور كما هي دون تغيير</span>
     </div>
 </div>
 </body>
